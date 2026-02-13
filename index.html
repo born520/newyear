@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>한옥문 설날 인사드립니다.</title>
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://born520.github.io/newyear/">
+<meta property="og:title" content="한옥문 설날 인사드립니다.">
+<meta property="og:description" content="따듯한 설 보내십시오. 한옥문이 변화와 성장으로 함께 하겠습니다.">
+<meta property="og:image" content="https://born520.github.io/newyear/images/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 <style>
   *{box-sizing:border-box;} body,html{margin:0;padding:0;width:100%; height:100%; height:100dvh; background:#000; overflow:hidden; font-family:sans-serif;}
@@ -22,35 +29,28 @@
 <div class="swiper"><div class="swiper-wrapper" id="video-list"></div></div>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
-  var data = [{"src":"https://born520.github.io/newyear/videos/movie.mp4#t=0.1","poster":"https://born520.github.io/newyear/images/og-image.jpg","title":"한옥문 설날 인사드립니다.","desc":"따듯한 설 보내십시오.\r<br>한옥문이 변화와 성장으로 함께 하겠습니다."}];
+  var data = [{"src":"https://born520.github.io/newyear/videos/movie.mp4","poster":"https://born520.github.io/newyear/images/og-image.jpg","title":"한옥문 설날 인사드립니다.","desc":"따듯한 설 보내십시오.\r 한옥문이 변화와 성장으로 함께 하겠습니다."}];
   var wrapper = document.getElementById("video-list");
   data.forEach(function(item, idx) {
     var slide = document.createElement("div"); slide.className = "swiper-slide";
-    var h = '<video id="vid-'+idx+'" src="'+item.src+'" poster="'+item.poster+'" loop playsinline preload="auto"></video>';
-    h += '<div id="bot-'+idx+'" class="txt-box bottom-txt">'+item.desc+'</div>';
-    h += '<div class="play-overlay" onclick="togglePlay('+idx+')"><div id="btn-'+idx+'" class="play-btn"></div></div>';
-    slide.innerHTML = h; wrapper.appendChild(slide);
+    var vh = '<video id="vid-'+idx+'" src="'+item.src+'" poster="'+item.poster+'" loop playsinline preload="auto"></video>';
+    var bh = '<div id="bot-'+idx+'" class="txt-box bottom-txt">'+item.desc+'</div>';
+    var oh = '<div class="play-overlay" onclick="togglePlay('+idx+')"><div id="btn-'+idx+'" class="play-btn"></div></div>';
+    slide.innerHTML = vh + bh + oh; wrapper.appendChild(slide);
   });
   var swiper = new Swiper(".swiper", { direction: "vertical", on: { slideChangeTransitionEnd: function() { playVideo(this.activeIndex); } } });
   function playVideo(index) {
     var vids = document.querySelectorAll("video");
     vids.forEach(function(v, i) {
-      if(i === index) {
-        if(index !== 0) { v.muted = false; v.play(); setUI(i, true); }
-      } else {
-        v.pause(); v.currentTime = 0; setUI(i, false);
-      }
+      if(i === index) { if(index !== 0) { v.muted = false; v.play(); setUI(i, true); } }
+      else { v.pause(); v.currentTime = 0; setUI(i, false); }
     });
   }
   function setUI(idx, isPlaying) {
-    var b = document.getElementById("btn-" + idx);
-    var bo = document.getElementById("bot-" + idx);
+    var b = document.getElementById("btn-"+idx); var bo = document.getElementById("bot-"+idx);
     if(!b || !bo) return;
-    if(isPlaying) {
-      b.classList.add("hide"); bo.classList.add("hide");
-    } else {
-      b.classList.remove("hide"); bo.classList.remove("hide");
-    }
+    if(isPlaying) { b.classList.add("hide"); bo.classList.add("hide"); }
+    else { b.classList.remove("hide"); bo.classList.remove("hide"); }
   }
   function togglePlay(idx) {
     var v = document.getElementById("vid-" + idx);
