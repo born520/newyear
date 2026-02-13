@@ -3,56 +3,60 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta property="og:title" content="한옥문 설날 인사드립니다.">
-<title>Video Player</title>
+<title>한옥문 설날 인사드립니다.</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 <style>
   *{box-sizing:border-box;} body,html{margin:0;padding:0;width:100%;height:100%;background:#000;overflow:hidden;font-family:sans-serif;}
   .swiper{width:100%;height:100%;max-width:480px;margin:0 auto;}
   .swiper-slide{position:relative;width:100%;height:100%;}
   video{width:100%;height:100vh;object-fit:cover;background:#000;}
-  .play-overlay{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;justify-content:center;align-items:center;z-index:20;}
-  .play-btn{width:80px;height:80px;background:rgba(255,255,255,0.8);border-radius:50%;display:flex;justify-content:center;align-items:center;cursor:pointer;transition:opacity 0.3s;}
-  .play-btn:after{content:"";border-style:solid;border-width:15px 0 15px 25px;border-color:transparent transparent transparent #000;margin-left:5px;}
-  .play-btn.hide{opacity:0;pointer-events:none;}
+  .play-overlay{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;justify-content:center;align-items:center;z-index:30;}
+  .play-btn{width:70px;height:70px;background:rgba(255,255,255,0.8);border-radius:50%;display:flex;justify-content:center;align-items:center;cursor:pointer;transition:opacity 0.4s;}
+  .play-btn:after{content:"";border-style:solid;border-width:12px 0 12px 20px;border-color:transparent transparent transparent #000;margin-left:5px;}
+  /* 텍스트 오버레이 스타일 */
+  .txt-box{position:absolute;left:0;width:100%;padding:30px 20px;color:#fff;z-index:20;transition:opacity 0.4s;text-shadow:0 2px 4px rgba(0,0,0,0.8);}
+  .top-txt{top:0;background:linear-gradient(to bottom, rgba(0,0,0,0.7), transparent);font-size:1.2rem;font-weight:bold;}
+  .bottom-txt{bottom:0;background:linear-gradient(to top, rgba(0,0,0,0.7), transparent);font-size:0.95rem;line-height:1.4;}
+  .hide{opacity:0 !important; pointer-events:none;}
 </style>
 </head>
 <body>
 <div class="swiper"><div class="swiper-wrapper" id="video-list"></div></div>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
-  var data = [{"src":"https://born520.github.io/newyear/videos/movie.mp4#t=0.1","poster":"","title":"한옥문 설날 인사드립니다."}];
+  var data = [{"src":"https://born520.github.io/newyear/videos/movie.mp4#t=0.1","title":"한옥문 설날 인사드립니다.","desc":"따듯한 설 보내십시오.\r<br>한옥문이 변화와 성장으로 함께 하겠습니다."}];
   var wrapper = document.getElementById("video-list");
   data.forEach(function(item, idx) {
     var slide = document.createElement("div"); slide.className = "swiper-slide";
-    var vHtml = '<video id="vid-'+idx+'" src="'+item.src+'" poster="'+item.poster+'" loop playsinline preload="auto"></video>';
-    var oHtml = '<div class="play-overlay" onclick="togglePlay('+idx+')"><div id="btn-'+idx+'" class="play-btn"></div></div>';
-    slide.innerHTML = vHtml + oHtml;
-    wrapper.appendChild(slide);
+    var h = '<video id="vid-'+idx+'" src="'+item.src+'" loop playsinline preload="auto"></video>';
+    h += '<div id="top-'+idx+'" class="txt-box top-txt">'+item.title+'</div>';
+    h += '<div id="bot-'+idx+'" class="txt-box bottom-txt">'+item.desc+'</div>';
+    h += '<div class="play-overlay" onclick="togglePlay('+idx+')"><div id="btn-'+idx+'" class="play-btn"></div></div>';
+    slide.innerHTML = h; wrapper.appendChild(slide);
   });
   var swiper = new Swiper(".swiper", { direction: "vertical", on: { slideChangeTransitionEnd: function() { playVideo(this.activeIndex); } } });
   function playVideo(index) {
     var vids = document.querySelectorAll("video");
     var btns = document.querySelectorAll(".play-btn");
+    var tops = document.querySelectorAll(".top-txt");
+    var bots = document.querySelectorAll(".bottom-txt");
     for(var i=0; i<vids.length; i++) {
-      var v = vids[i]; var b = btns[i];
       if(i === index) {
-        v.muted = false;
-        var p = v.play();
-        if (p !== undefined) { p.then(function() { b.classList.add("hide"); }).catch(function() { b.classList.remove("hide"); }); }
-      } else {
-        v.pause(); v.currentTime = 0; b.classList.remove("hide");
-      }
+        if(index !== 0) { vids[i].muted = false; vids[i].play(); setUI(i, true); }
+      } else { vids[i].pause(); vids[i].currentTime = 0; setUI(i, false); }
     }
+  }
+  function setUI(idx, isPlaying) {
+    var b = document.getElementById("btn-"+idx);
+    var t = document.getElementById("top-"+idx);
+    var bo = document.getElementById("bot-"+idx);
+    if(isPlaying) { b.classList.add("hide"); t.classList.add("hide"); bo.classList.add("hide"); }
+    else { b.classList.remove("hide"); t.classList.remove("hide"); bo.classList.remove("hide"); }
   }
   function togglePlay(idx) {
     var v = document.getElementById("vid-" + idx);
-    var b = document.getElementById("btn-" + idx);
-    if(v.paused) {
-      v.muted = false; v.play(); b.classList.add("hide");
-    } else {
-      v.pause(); b.classList.remove("hide");
-    }
+    if(v.paused) { v.muted = false; v.play(); setUI(idx, true); }
+    else { v.pause(); setUI(idx, false); }
   }
 </script>
 </body>
