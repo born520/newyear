@@ -11,12 +11,11 @@
   .swiper-slide{position:relative;width:100%;height:100%;}
   video{width:100%;height:100vh;object-fit:cover;background:#000;}
   .play-overlay{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;justify-content:center;align-items:center;z-index:30;}
-  .play-btn{width:70px;height:70px;background:rgba(255,255,255,0.8);border-radius:50%;display:flex;justify-content:center;align-items:center;cursor:pointer;transition:opacity 0.4s;}
-  .play-btn:after{content:"";border-style:solid;border-width:12px 0 12px 20px;border-color:transparent transparent transparent #000;margin-left:5px;}
-  /* 텍스트 오버레이 스타일 */
-  .txt-box{position:absolute;left:0;width:100%;padding:30px 20px;color:#fff;z-index:20;transition:opacity 0.4s;text-shadow:0 2px 4px rgba(0,0,0,0.8);}
-  .top-txt{top:0;background:linear-gradient(to bottom, rgba(0,0,0,0.7), transparent);font-size:1.2rem;font-weight:bold;}
-  .bottom-txt{bottom:0;background:linear-gradient(to top, rgba(0,0,0,0.7), transparent);font-size:0.95rem;line-height:1.4;}
+  .play-btn{width:80px;height:80px;background:rgba(255,255,255,0.8);border-radius:50%;display:flex;justify-content:center;align-items:center;cursor:pointer;transition:opacity 0.4s;}
+  .play-btn:after{content:"";border-style:solid;border-width:15px 0 15px 25px;border-color:transparent transparent transparent #000;margin-left:5px;}
+  .txt-box{position:absolute;left:0;width:100%;padding:50px 20px;color:#fff;z-index:20;transition:opacity 0.4s;text-shadow:0 2px 10px rgba(0,0,0,1); text-align:center;}
+  .top-txt{top:0;background:linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); font-size:1.6rem; font-weight:bold;}
+  .bottom-txt{bottom:0;background:linear-gradient(to top, rgba(0,0,0,0.8), transparent); font-size:1.2rem; line-height:1.6;}
   .hide{opacity:0 !important; pointer-events:none;}
 </style>
 </head>
@@ -37,9 +36,6 @@
   var swiper = new Swiper(".swiper", { direction: "vertical", on: { slideChangeTransitionEnd: function() { playVideo(this.activeIndex); } } });
   function playVideo(index) {
     var vids = document.querySelectorAll("video");
-    var btns = document.querySelectorAll(".play-btn");
-    var tops = document.querySelectorAll(".top-txt");
-    var bots = document.querySelectorAll(".bottom-txt");
     for(var i=0; i<vids.length; i++) {
       if(i === index) {
         if(index !== 0) { vids[i].muted = false; vids[i].play(); setUI(i, true); }
@@ -47,9 +43,7 @@
     }
   }
   function setUI(idx, isPlaying) {
-    var b = document.getElementById("btn-"+idx);
-    var t = document.getElementById("top-"+idx);
-    var bo = document.getElementById("bot-"+idx);
+    var b = document.getElementById("btn-"+idx); var t = document.getElementById("top-"+idx); var bo = document.getElementById("bot-"+idx);
     if(isPlaying) { b.classList.add("hide"); t.classList.add("hide"); bo.classList.add("hide"); }
     else { b.classList.remove("hide"); t.classList.remove("hide"); bo.classList.remove("hide"); }
   }
