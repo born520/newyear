@@ -2,21 +2,19 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>한옥문 설날 인사드립니다.</title>
-<meta property="og:title" content="한옥문 설날 인사드립니다.">
-<meta property="og:image" content="https://born520.github.io/newyear/images/og-image.png">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 <style>
-  *{box-sizing:border-box;} body,html{margin:0;padding:0;width:100%;height:100%;background:#000;overflow:hidden;font-family:sans-serif;}
-  .swiper{width:100%;height:100%;max-width:480px;margin:0 auto;}
-  .swiper-slide{position:relative;width:100%;height:100%;}
-  video{width:100%; height:100vh; object-fit:contain; background:#000;}
-  .play-overlay{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;justify-content:center;align-items:center;z-index:30;}
-  .play-btn{width:80px;height:80px;background:rgba(255,255,255,0.8);border-radius:50%;display:flex;justify-content:center;align-items:center;cursor:pointer;}
-  .play-btn:after{content:"";border-style:solid;border-width:15px 0 15px 25px;border-color:transparent transparent transparent #000;margin-left:5px;}
-  .txt-box{position:absolute;left:0;width:100%;padding:60px 20px;color:#fff;z-index:20;transition:opacity 0.4s;text-shadow:0 2px 10px rgba(0,0,0,1); text-align:center;}
-  .bottom-txt{bottom:0;background:linear-gradient(to top, rgba(0,0,0,0.8), transparent); font-size:1.2rem; line-height:1.6;}
+  *{box-sizing:border-box;} body,html{margin:0;padding:0;width:100%; height:100%; height:100dvh; background:#000; overflow:hidden; font-family:sans-serif;}
+  .swiper{width:100%; height:100%; height:100dvh; max-width:480px; margin:0 auto;}
+  .swiper-slide{position:relative; width:100%; height:100%; height:100dvh; overflow:hidden;}
+  video{width:100%; height:100%; height:100dvh; object-fit:contain; background:#000;}
+  .play-overlay{position:absolute; top:0; left:0; width:100%; height:100%; display:flex; justify-content:center; align-items:center; z-index:30;}
+  .play-btn{width:80px; height:80px; background:rgba(255,255,255,0.8); border-radius:50%; display:flex; justify-content:center; align-items:center; cursor:pointer;}
+  .play-btn:after{content:""; border-style:solid; border-width:15px 0 15px 25px; border-color:transparent transparent transparent #000; margin-left:5px;}
+  .txt-box{position:absolute; left:0; bottom:0; width:100%; padding:40px 20px 100px; color:#fff; z-index:20; transition:opacity 0.4s; text-shadow:0 2px 10px rgba(0,0,0,1); text-align:center; background:linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 70%, transparent 100%); max-height:45%; overflow-y:auto;}
+  .bottom-txt{font-size:1.2rem; line-height:1.6; word-break:keep-all;}
   .hide{opacity:0 !important; pointer-events:none;}
 </style>
 </head>
@@ -36,19 +34,27 @@
   var swiper = new Swiper(".swiper", { direction: "vertical", on: { slideChangeTransitionEnd: function() { playVideo(this.activeIndex); } } });
   function playVideo(index) {
     var vids = document.querySelectorAll("video");
-    for(var i=0; i<vids.length; i++) {
-      var v = vids[i];
-      if(i === index) { if(index !== 0) { v.muted = false; v.play(); setUI(i, true); } }
-      else { v.pause(); v.currentTime = 0; setUI(i, false); }
-    }
+    vids.forEach(function(v, i) {
+      if(i === index) {
+        if(index !== 0) { v.muted = false; v.play(); setUI(i, true); }
+      } else {
+        v.pause(); v.currentTime = 0; setUI(i, false);
+      }
+    });
   }
   function setUI(idx, isPlaying) {
-    var b = document.getElementById("btn-"+idx); var bo = document.getElementById("bot-"+idx);
-    if(isPlaying) { b.classList.add("hide"); bo.classList.add("hide"); }
-    else { b.classList.remove("hide"); bo.classList.remove("hide"); }
+    var b = document.getElementById("btn-" + idx);
+    var bo = document.getElementById("bot-" + idx);
+    if(!b || !bo) return;
+    if(isPlaying) {
+      b.classList.add("hide"); bo.classList.add("hide");
+    } else {
+      b.classList.remove("hide"); bo.classList.remove("hide");
+    }
   }
   function togglePlay(idx) {
     var v = document.getElementById("vid-" + idx);
+    if(!v) return;
     if(v.paused) { v.muted = false; v.play(); setUI(idx, true); }
     else { v.pause(); setUI(idx, false); }
   }
