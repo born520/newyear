@@ -1,1 +1,48 @@
-
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta property="og:title" content="한옥문 설날 인사드립니다.">
+<meta property="og:description" content="따듯한 설 보내십시오.
+한옥문이 변화와 성장으로 함께 하겠습니다.">
+<title>My Video Player</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<style>
+  *{box-sizing:border-box;} body,html{margin:0;padding:0;width:100%;height:100%;background:#000;overflow:hidden;}
+  .swiper{width:100%;height:100%;max-width:480px;margin:0 auto;}
+  .swiper-slide{position:relative;width:100%;height:100%;}
+  video{width:100%;height:100vh;object-fit:cover;display:block;}
+  .info-box{position:absolute;bottom:40px;left:20px;color:#fff;z-index:10;text-shadow:1px 1px 2px #000;}
+</style>
+</head>
+<body>
+<div class="swiper"><div class="swiper-wrapper" id="video-list"></div></div>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+  var data = [{"src":"https://born520.github.io/newyear/videos/movie.mp4","title":"한옥문 설날 인사드립니다.","desc":"따듯한 설 보내십시오.\r\n한옥문이 변화와 성장으로 함께 하겠습니다.","poster":""}];
+  var wrapper = document.getElementById("video-list");
+  data.forEach(function(item, idx) {
+    var slide = document.createElement("div");
+    slide.className = "swiper-slide";
+    var htmlStr = '<video id="vid-' + idx + '" src="' + item.src + '" poster="' + item.poster + '" loop playsinline muted></video>';
+    htmlStr += '<div class="info-box"><h3>' + item.title + '</h3><p>' + item.desc + '</p></div>';
+    slide.innerHTML = htmlStr;
+    wrapper.appendChild(slide);
+  });
+  var swiper = new Swiper(".swiper", {
+    direction: "vertical",
+    on: {
+      slideChange: function() { playVideo(this.activeIndex); }
+    }
+  });
+  function playVideo(index) {
+    var vids = document.querySelectorAll("video");
+    vids.forEach(function(v, i) {
+      if(i === index) { v.play(); } else { v.pause(); v.currentTime = 0; }
+    });
+  }
+  document.body.addEventListener("click", function() { playVideo(swiper.activeIndex); }, {once: true});
+</script>
+</body>
+</html>
