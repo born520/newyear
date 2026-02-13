@@ -12,7 +12,7 @@
   *{box-sizing:border-box;} body,html{margin:0;padding:0;width:100%;height:100%;background:#000;overflow:hidden;font-family:sans-serif;}
   .swiper{width:100%;height:100%;max-width:480px;margin:0 auto;}
   .swiper-slide{position:relative;width:100%;height:100%;}
-  video{width:100%;height:100vh;object-fit:cover;background:#000;}
+  video{width:100%; height:100vh; object-fit:contain; background:#000;}
   .play-overlay{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;justify-content:center;align-items:center;z-index:30;}
   .play-btn{width:80px;height:80px;background:rgba(255,255,255,0.8);border-radius:50%;display:flex;justify-content:center;align-items:center;cursor:pointer;}
   .play-btn:after{content:"";border-style:solid;border-width:15px 0 15px 25px;border-color:transparent transparent transparent #000;margin-left:5px;}
@@ -39,20 +39,14 @@
   var swiper = new Swiper(".swiper", { direction: "vertical", on: { slideChangeTransitionEnd: function() { playVideo(this.activeIndex); } } });
   function playVideo(index) {
     var vids = document.querySelectorAll("video");
-    for(var i=0; i<vids.length; i++) {
-      if(i === index) { if(index !== 0) { vids[i].muted = false; vids[i].play(); setUI(i, true); } }
-      else { vids[i].pause(); vids[i].currentTime = 0; setUI(i, false); }
-    }
+    var v = document.getElementById("vid-0");
+    if(0 === index) { if(index !== 0) { v.muted = false; v.play(); setUI(0, true); } }
+    else { v.pause(); v.currentTime = 0; setUI(0, false); }
   }
   function setUI(idx, isPlaying) {
-    var b = document.getElementById("btn-"+idx);
-    var t = document.getElementById("top-"+idx);
-    var bo = document.getElementById("bot-"+idx);
-    if(isPlaying) {
-      b.classList.add("hide"); t.classList.add("hide"); bo.classList.add("hide");
-    } else {
-      b.classList.remove("hide"); t.classList.remove("hide"); bo.classList.remove("hide");
-    }
+    var b = document.getElementById("btn-"+idx); var t = document.getElementById("top-"+idx); var bo = document.getElementById("bot-"+idx);
+    if(isPlaying) { b.classList.add("hide"); t.classList.add("hide"); bo.classList.add("hide"); }
+    else { b.classList.remove("hide"); t.classList.remove("hide"); bo.classList.remove("hide"); }
   }
   function togglePlay(idx) {
     var v = document.getElementById("vid-" + idx);
